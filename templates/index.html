@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Random cats!</title>
+    </head>
+    <style>
+        * { font-family: Tahoma, Verdana, Arial, sans-serif }
+        .m { font-family: monospace; }
+        .container { width: 800px; margin: 20px auto; padding: 20px; background-color: #fab;}
+    </style>
+    <body>
+        <div class="container">
+            <h1>Random cats!</h1>
+            <p>This is a simple app to generate a random image of a cat. For example, 
+            to get a 400x300px cat, use the following image: <span class="m">{{ base_url }}{% url kittens.views.kitten width=400 height=300 %}</span></p>
+            <p>Here is a sample random 600x400px image you can get:</p>
+            <img src="{% url kittens.views.kitten width=600 height=400 %}"/>
+            <img src="{% url kittens.views.fetch_image %}"/>
+            <p>All images are fetched from <a href="http://www.flickr.com/">Flickr</a> and are licensed under 
+            <a href="http://www.flickr.com/creativecommons/">Creative Commons License</a>. Flickr ID of the author is
+            encoded in redirected image URL.</p>
+        </div>
+    </body>
+</html>
+
