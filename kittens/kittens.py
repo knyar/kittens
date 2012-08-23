@@ -46,7 +46,7 @@ def fetch_new_image():
     photos = flickr.photos_search(
             license='1,2,4,5', # attribution
             content_type='1', # photos
-            group_id='10917369@N00' # http://www.flickr.com/groups/cat-portraits/
+            group_id='10917369@N00', # http://www.flickr.com/groups/cat-portraits/
             media='photos',
             extras='original_format',
             per_page='30',
