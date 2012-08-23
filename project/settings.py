@@ -17,5 +17,7 @@ MEDIA_URL = '/kittens/files'
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '../templates'))
 
 # set this in local_settings.py
-FLICKR_API_KEY = ''
+#FLICKR_API_KEY = ''
+
+from local_settings import *
 
