@@ -38,3 +38,5 @@ Then add the following to your nginx virtualhost:
       add_header Last-Modified "";
     }
 
+By default new image is fetched from Flickr when somebody visits the index page. However, you can add `curl http://localhost:8000/kittens/fetch > /dev/null` to your crontab to add new images regularly.
+

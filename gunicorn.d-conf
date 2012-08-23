@@ -1,0 +1,13 @@
+CONFIG = {
+    'mode': 'django',
+    'python': '/var/www/kittens/virtualenv/bin/python',
+    'working_dir': '/var/www/kittens/current/project',
+    'user': 'www-data',
+    'group': 'www-data',
+    'args': (
+        '--bind=0.0.0.0:8000',
+        '--workers=4',
+        '--timeout=30',
+        '--preload',
+    ),
+}
