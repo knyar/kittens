@@ -45,12 +45,13 @@ def fetch_new_image():
     flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY)
     photos = flickr.photos_search(
             license='1,2,4,5', # attribution
+            sort='interestingness-desc',
             content_type='1', # photos
             group_id='10917369@N00', # http://www.flickr.com/groups/cat-portraits/
             media='photos',
             extras='original_format',
             per_page='30',
-            page = random.randint(1, 296),
+            page = random.randint(1, 150),
             )
     if photos.attrib['stat'] != 'ok': return False
     for i in xrange(30):
