@@ -7,6 +7,7 @@ import Image
 from django.conf import settings
 
 images_root = "%s/images" % settings.MEDIA_ROOT
+owner_blacklist = ['31355686@N00']
 
 def resize_image(image_id, dst_width, dst_height):
     resized_path = "%s/%s/%sx%s.jpg" % (images_root, image_id, dst_width, dst_height)
@@ -57,6 +58,7 @@ def fetch_new_image():
     for i in xrange(30):
         random_id = random.randint(0, len(photos[0])-1)
         photo = photos[0][random_id]
+        if photo.attrib['owner'] in owner_blacklist: continue
         image_id = '%s-%s' % (photo.attrib['owner'], photo.attrib['id'])
         if 'originalformat' in photo.attrib and photo.attrib['originalformat'] == 'jpg' and not image_orig_exists(image_id):
             url = string.Template('http://farm${farm}.staticflickr.com/${server}/${id}_${originalsecret}_o.jpg').safe_substitute(photo.attrib)
