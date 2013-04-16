@@ -3,7 +3,9 @@ Kittens
 
 A simple django application to show a random image fetched from Flickr resized to a specified size.
 
-`/kittens/x/y` shows one of the locally cached images in x pixels witdh and y pixels height.
+`/kittens/x/y/js` gets javascript to show one of the locally cached images in x pixels witdh and y pixels height. This is the preferred way to show pictures you got from Flickr because it creates a link to the Flickr page of the original image.
+
+`/kittens/x/y` gets one of the locally cached images in x pixels witdh and y pixels height directly. Flickr author ID and image ID get encoded into the redirected image URL, so this also conforms with Creative Commons license requirement for attribution.
 
 `/kittens/fetch` fetches a new image from Flickr and stores it in local cache.
 
