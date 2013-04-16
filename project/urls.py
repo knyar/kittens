@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^%s?$' % baseurl, 'kittens.views.index'),
     url(r'^%sfetch$' % baseurl, 'kittens.views.fetch_image'),
     url(r'^%s(?P<width>\d+)/(?P<height>\d+)/?$' % baseurl, 'kittens.views.kitten'),
+    url(r'^%s(?P<width>\d+)/(?P<height>\d+)/js$' % baseurl, 'kittens.views.kitten_js'),
 )
 
 if settings.DEBUG:
