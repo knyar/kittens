@@ -45,7 +45,7 @@ def image_orig_exists(image_id):
 def fetch_new_image():
     flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY)
     photos = flickr.photos_search(
-            license='1,2,4,5', # attribution
+            license='1,2,4,5,7', # attribution
             sort='interestingness-desc',
             content_type='1', # photos
             group_id='10917369@N00', # http://www.flickr.com/groups/cat-portraits/
