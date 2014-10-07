@@ -3,16 +3,20 @@ import random
 import os
 import urllib
 import string
+import shutil
 import Image
 from django.conf import settings
 
-images_root = "%s/images" % settings.MEDIA_ROOT
+orig_fname = 'orig.jpg'
+images_root = os.path.join(settings.MEDIA_ROOT, 'images')
 owner_blacklist = ['31355686@N00']
 
 def resize_image(image_id, dst_width, dst_height):
-    resized_path = "%s/%s/%sx%s.jpg" % (images_root, image_id, dst_width, dst_height)
-    if os.path.isfile(resized_path): return True
-    img = Image.open('%s/%s/orig.jpg' % (images_root, image_id))
+    base_path = os.path.join(images_root, image_id)
+    resized_path = os.path.join(base_path, '%sx%s.jpg' % (dst_width, dst_height))
+    if os.path.isfile(resized_path):
+         return True
+    img = Image.open(os.path.join(base_path, orig_fname))
     src_width, src_height = img.size
     src_ratio = float(src_width) / float(src_height)
     dst_ratio = float(dst_width) / float(dst_height)
@@ -33,14 +37,13 @@ def resize_image(image_id, dst_width, dst_height):
 
 def get_random_image_id():
     dirlist = os.listdir(images_root)
-    image_id = False
-    while image_id == False:
+    while True:
         try_id = random.choice(dirlist)
-        if image_orig_exists(try_id): image_id = try_id
-    return image_id
+        if image_orig_exists(try_id):
+             return try_id
 
 def image_orig_exists(image_id):
-    return os.path.isfile("%s/%s/orig.jpg" % (images_root, image_id))
+    return os.path.isfile(os.path.join(images_root, image_id, orig_fname))
 
 def fetch_new_image():
     flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY)
@@ -62,13 +65,16 @@ def fetch_new_image():
         image_id = '%s-%s' % (photo.attrib['owner'], photo.attrib['id'])
         if 'originalformat' in photo.attrib and photo.attrib['originalformat'] == 'jpg' and not image_orig_exists(image_id):
             url = string.Template('http://farm${farm}.staticflickr.com/${server}/${id}_${originalsecret}_o.jpg').safe_substitute(photo.attrib)
-            os.mkdir("%s/%s" % (images_root, image_id))
+            image_dir = os.path.join(images_root, image_id)
+
+            if not os.path.isdir(image_dir):
+                os.mkdir(image_dir)
             try:
-                dstpath = "%s/%s/orig.jpg" % (images_root, image_id)
+                dstpath = os.path.join(images_root, image_id, orig_fname)
                 urllib.urlretrieve(url, "%s.tmp" % dstpath)
                 os.rename("%s.tmp" % dstpath, dstpath)
                 return True
             except IOError, e:
-                os.rmdir("%s/%s" % (images_root, image_id))
+                shutil.rmtree(image_dir)
     return False
 
